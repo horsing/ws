@@ -1,12 +1,11 @@
 package code
 
-import "runtime"
+import (
+	"github.com/horsing/coder/pkg"
+	"runtime"
+)
 
-type Code interface {
-	Replace(font string, dirs ...string) bool
-}
-
-func New() Code {
+func New() pkg.Application {
 	if runtime.GOOS == "windows" {
 		return windows{}
 	}

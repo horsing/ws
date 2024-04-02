@@ -1,6 +1,7 @@
 package code
 
 import (
+	"fmt"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -8,7 +9,8 @@ import (
 	"strings"
 )
 
-type windows struct{}
+type windows struct {
+}
 
 const folder = "Microsoft VS Code"
 
@@ -17,15 +19,11 @@ var programs = []string{path.Join(os.Getenv("ProgramFiles"), folder),
 	path.Join(os.Getenv("LOCALAPPDATA"), "Programs", folder),
 }
 
-func (w windows) Replace(font string, dirs ...string) bool {
-	locations := append(dirs, programs...)
-	var location string
-	for _, l := range locations {
-		if _, err := os.Stat(l); err == nil {
-			location = l
-			break
-		}
-	}
+const p = "Code.exe"
+
+func (w windows) Start(program string, env []string, args ...string) bool {
+	font := args[0]
+	location := program[:strings.LastIndex(program, string(os.PathSeparator))]
 	if location == "" {
 		return false
 	}
@@ -44,6 +42,12 @@ func (w windows) Replace(font string, dirs ...string) bool {
 		}
 	}
 
-	_ = exec.Command(path.Join(location, "Code.exe")).Start()
-	return true
+	c := exec.Command(program)
+	c.Env = env
+	if err := c.Start(); err == nil {
+		return true
+	} else {
+		fmt.Println(err)
+		return false
+	}
 }

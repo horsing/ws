@@ -2,6 +2,6 @@ package code
 
 type linux struct{}
 
-func (l linux) Replace(font string, dirs ...string) bool {
+func (l linux) Start(program string, env []string, args ...string) bool {
 	panic("implement me")
 }

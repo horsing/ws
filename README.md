@@ -1,4 +1,4 @@
-# Coder
+# Workspace
 
 [![Build Status](https://github.com/horsing/coder/actions/workflows/go.yml/badge.svg)](https://github.com/horsing/coder/actions/workflows/go.yml)
 [![LICENSE](https://img.shields.io/github/license/horsing/coder.svg)](https://github.com/horsing/coder/blob/master/LICENSE)
@@ -13,6 +13,7 @@
 
 ## Overview
 
+Workspace is an open-source command line tool, which can read input and separate into multiple subtasks to accelerate
 Coder is an open-source command line tool, which can read input and separate into Coder subtasks to accelerate
 large scale jobs' execution.
 
@@ -29,12 +30,12 @@ Available options:
 ### Start default
 
 ```bash
-coder
+workspace
 ```
 
 ## License
 
-Coder is licensed under the [MIT](https://opensource.org/license/mit).
+Workspace is licensed under the [MIT](https://opensource.org/license/mit).
 For detail see [LICENSE](LICENSE).
 
 ## Note
