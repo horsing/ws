@@ -1,4 +1,4 @@
-# Multiple
+# Coder
 
 [![Build Status](https://github.com/horsing/coder/actions/workflows/ci.yml/badge.svg)](https://github.com/horsing/coder/actions/workflows/ci.yml)
 [![LICENSE](https://img.shields.io/github/license/horsing/coder.svg)](https://github.com/horsing/coder/blob/master/LICENSE)
@@ -13,7 +13,7 @@
 
 ## Overview
 
-Multiple is an open-source command line tool, which can read input and separate into multiple subtasks to accelerate
+Coder is an open-source command line tool, which can read input and separate into Coder subtasks to accelerate
 large scale jobs' execution.
 
 ## Usage
@@ -34,7 +34,7 @@ coder
 
 ## License
 
-Multiple is licensed under the [MIT](https://opensource.org/license/mit).
+Coder is licensed under the [MIT](https://opensource.org/license/mit).
 For detail see [LICENSE](LICENSE).
 
 ## Note
