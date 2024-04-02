@@ -1,6 +1,6 @@
 # Coder
 
-[![Build Status](https://github.com/horsing/coder/actions/workflows/ci.yml/badge.svg)](https://github.com/horsing/coder/actions/workflows/ci.yml)
+[![Build Status](https://github.com/horsing/coder/actions/workflows/ci.yml/badge.svg)](https://github.com/horsing/coder/actions/workflows/go.yml)
 [![LICENSE](https://img.shields.io/github/license/horsing/coder.svg)](https://github.com/horsing/coder/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/horsing/coder)](https://goreportcard.com/report/github.com/horsing/coder)
