@@ -51,5 +51,5 @@ func Merge(lhs, rhs []string, insensitive bool) []string {
 	if len(merged) <= 0 {
 		return lhs
 	}
-	return append(merged)
+	return merged
 }
