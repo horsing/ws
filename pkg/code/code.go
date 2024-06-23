@@ -1,11 +1,12 @@
 package code
 
 import (
-	"github.com/horsing/coder/pkg"
 	"runtime"
+
+	"github.com/horsing/coder/pkg/types"
 )
 
-func New() pkg.Application {
+func New() types.Application {
 	if runtime.GOOS == "windows" {
 		return windows{}
 	}

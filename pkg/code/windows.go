@@ -23,7 +23,7 @@ var programs = []string{
 
 const p = "Code.exe"
 
-func (w windows) Start(program string, env []string, args ...string) bool {
+func (w windows) Start(program string, env []string, osargs []string, args ...string) bool {
 	font := args[0]
 
 	if len(program) == 0 {
@@ -61,7 +61,7 @@ func (w windows) Start(program string, env []string, args ...string) bool {
 		}
 	}
 
-	c := exec.Command(program)
+	c := exec.Command(program, osargs...)
 	c.Env = env
 	c.Stderr = os.Stderr
 	c.Stdout = os.Stdout

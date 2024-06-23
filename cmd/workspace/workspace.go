@@ -1,13 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"os"
+
 	"github.com/horsing/coder/pkg"
 	"github.com/horsing/coder/pkg/code"
-	"os"
-	"path"
-	"runtime"
+	"github.com/horsing/coder/pkg/config"
 )
 
 func usage() {
@@ -15,33 +14,7 @@ func usage() {
 }
 
 func main() {
-	cfg := pkg.Config{
-		Env:      os.Environ(),
-		Programs: map[string]pkg.App{},
-	}
-	for _, dir := range []string{os.Getenv("HOME"), os.Getenv("USERPROFILE")} {
-		if s, err := os.Stat(dir); err == nil {
-			if s.IsDir() {
-				workspace := path.Join(dir, ".workspace")
-				if s, err := os.Stat(workspace); err == nil {
-					if !s.IsDir() {
-						if buf, err := os.ReadFile(workspace); err == nil {
-							tmpCommands := pkg.Config{Env: []string{}, Programs: map[string]pkg.App{}}
-							if err := json.Unmarshal(buf, &tmpCommands); err == nil {
-								for k, v := range tmpCommands.Programs {
-									cfg.Programs[k] = v
-								}
-								// windows insensitive
-								cfg.Env = pkg.Merge(cfg.Env, tmpCommands.Env, runtime.GOOS == "windows")
-							} else {
-								fmt.Println(err)
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	cfg := config.Get()
 
 	if len(os.Args) <= 1 {
 		usage()
@@ -53,13 +26,19 @@ func main() {
 		usage()
 	case "version":
 		fmt.Println("dev")
+	case "config":
+		if vsc, ok := cfg.Programs["code"]; ok {
+			code.New().Start(vsc.Program, append(cfg.Env, vsc.Env...), []string{config.Configuration()}, vsc.Args...)
+		} else {
+			panic("Program code is required but not configured.")
+		}
 	default:
 		if v, ok := cfg.Programs[os.Args[1]]; ok {
 			switch os.Args[1] {
 			case "code":
-				code.New().Start(v.Program, append(cfg.Env, v.Env...), v.Args...)
+				code.New().Start(v.Program, append(cfg.Env, v.Env...), os.Args[2:], v.Args...)
 			default:
-				pkg.GenericApplication{}.Start(v.Program, append(cfg.Env, v.Env...), v.Args...)
+				pkg.GenericApplication{}.Start(v.Program, append(cfg.Env, v.Env...), os.Args[1:], v.Args...)
 			}
 		} else {
 			usage()
