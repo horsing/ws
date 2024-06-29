@@ -22,15 +22,33 @@ large scale jobs' execution.
 ### Introduction
 
 ```text
-Usage: coder.exe [options] [visual studio code install path]
-Available options:
-  -h|--help                                         show this help
+Usage: ws <command>
+Available command:
+  -h|--help                     show this help
+  [exe]                         any command configured in ~/.workspace
+```
+
+#### `~/.workspace`
+
+> An example of `~/.workspace`:
+
+```json
+{
+  "programs": {
+    "code": {
+      "program": "C:\\Users\\developer\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+      "args": [
+        "Source Code Pro"
+      ]
+    }
+  }
+}
 ```
 
 ### Start default
 
 ```bash
-workspace
+ws
 ```
 
 ## License
