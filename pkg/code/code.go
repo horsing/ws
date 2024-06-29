@@ -3,7 +3,7 @@ package code
 import (
 	"runtime"
 
-	"github.com/horsing/coder/pkg/types"
+	"github.com/horsing/ws/pkg/types"
 )
 
 func New() types.Application {

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/horsing/coder/pkg"
-	"github.com/horsing/coder/pkg/code"
-	"github.com/horsing/coder/pkg/config"
+	"github.com/horsing/ws/pkg"
+	"github.com/horsing/ws/pkg/code"
+	"github.com/horsing/ws/pkg/config"
 )
 
 func usage() {
