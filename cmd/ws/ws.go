@@ -3,27 +3,42 @@ package main
 import (
 	"fmt"
 	"os"
+	"path"
+	"runtime"
+	"strings"
 
 	"github.com/horsing/ws/pkg"
 	"github.com/horsing/ws/pkg/code"
 	"github.com/horsing/ws/pkg/config"
 )
 
-func usage() {
-	fmt.Printf(`Usage: %s <cmd>`, os.Args[0])
+func usage(c *config.Config) {
+	_, cmd := path.Split(os.Args[0])
+	if runtime.GOOS == "windows" {
+		if i := strings.LastIndex(cmd, string(os.PathSeparator)); i >= 0 {
+			cmd = cmd[i+1:]
+		}
+	}
+	fmt.Printf("Usage: %s {help|version|config|%s}\n", cmd, c.AvailableCommands("|"))
 }
 
 func main() {
 	cfg := config.Get()
 
 	if len(os.Args) <= 1 {
-		usage()
+		usage(cfg)
 		return
 	}
 
 	switch os.Args[1] {
 	case "help":
-		usage()
+		usage(cfg)
+		if len(os.Args) > 2 {
+			v := os.Args[2]
+			if _, ok := cfg.Programs[v]; ok {
+				fmt.Printf("  %v", cfg.CommandHelp(v))
+			}
+		}
 	case "version":
 		fmt.Println("dev")
 	case "config":
@@ -38,10 +53,12 @@ func main() {
 			case "code":
 				code.New().Start(v.Program, append(cfg.Env, v.Env...), os.Args[2:], v.Args...)
 			default:
-				pkg.GenericApplication{}.Start(v.Program, append(cfg.Env, v.Env...), os.Args[1:], v.Args...)
+				if err := (pkg.GenericApplication{}.Start(v.Program, append(cfg.Env, v.Env...), os.Args[1:], v.Args...)); err != nil {
+					panic(err)
+				}
 			}
 		} else {
-			usage()
+			usage(cfg)
 		}
 	}
 }

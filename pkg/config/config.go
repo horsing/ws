@@ -22,6 +22,23 @@ type Config struct {
 	Programs map[string]App `json:"programs"`
 }
 
+func (c Config) AvailableCommands(sep string) string {
+	keys := make([]string, len(c.Programs))
+	i := 0
+	for k := range c.Programs {
+		keys[i] = k
+		i += 1
+	}
+	return strings.Join(keys, sep)
+}
+
+func (c Config) CommandHelp(cmd string) []string {
+	if v, ok := c.Programs[cmd]; ok {
+		return []string{cmd, v.Program}
+	}
+	return []string{}
+}
+
 func Configuration() string {
 	if runtime.GOOS == "windows" {
 		return path.Join(os.Getenv("USERPROFILE"), workspace)

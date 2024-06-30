@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "workspace",
+            "name": "ws",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "./cmd/workspace/",
+            "program": "./cmd/ws/",
             "args": [
-                "code"
+                "zed"
             ]
         }
     ]
