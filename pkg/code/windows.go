@@ -66,6 +66,7 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 	c.Stderr = os.Stderr
 	c.Stdout = os.Stdout
 	if err := c.Start(); err == nil {
+		fmt.Printf("Started [%s] with environment: %q", program, env)
 		return true
 	} else {
 		fmt.Println(err)
