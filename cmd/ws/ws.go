@@ -22,6 +22,10 @@ func usage(c *config.Config) {
 	fmt.Printf("Usage: %s {help|version|config|%s}\n", cmd, c.AvailableCommands("|"))
 }
 
+func insensitive() bool {
+	return runtime.GOOS == "windows"
+}
+
 func main() {
 	cfg := config.Get()
 
@@ -43,7 +47,7 @@ func main() {
 		fmt.Println("dev")
 	case "config":
 		if vsc, ok := cfg.Programs["code"]; ok {
-			code.New().Start(vsc.Program, append(cfg.Env, vsc.Env...), []string{config.Configuration()}, vsc.Args...)
+			code.New().Start(vsc.Program, config.Merge(cfg.Env, vsc.Env, insensitive()), []string{config.Configuration()}, vsc.Args...)
 		} else {
 			panic("Program code is required but not configured.")
 		}
@@ -51,9 +55,9 @@ func main() {
 		if v, ok := cfg.Programs[os.Args[1]]; ok {
 			switch os.Args[1] {
 			case "code":
-				code.New().Start(v.Program, append(cfg.Env, v.Env...), os.Args[2:], v.Args...)
+				code.New().Start(v.Program, config.Merge(cfg.Env, v.Env, insensitive()), os.Args[2:], v.Args...)
 			default:
-				if err := (pkg.GenericApplication{}.Start(v.Program, append(cfg.Env, v.Env...), os.Args[1:], v.Args...)); err != nil {
+				if err := (pkg.GenericApplication{}.Start(v.Program, config.Merge(cfg.Env, v.Env, insensitive()), os.Args[1:], v.Args...)); err != nil {
 					panic(err)
 				}
 			}
