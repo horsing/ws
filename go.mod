@@ -1,6 +1,6 @@
 module github.com/horsing/ws
 
-go 1.21.5
+go 1.22
 
 require gotest.tools v2.2.0+incompatible
 

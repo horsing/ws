@@ -61,12 +61,24 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 		}
 	}
 
+	verbose := false
+	for _, a := range osargs {
+		switch a {
+			case "-V":
+			case "--verbose":
+				verbose = true;
+				break;
+		}
+	}
+
 	c := exec.Command(program, osargs...)
 	c.Env = env
 	c.Stderr = os.Stderr
 	c.Stdout = os.Stdout
 	if err := c.Start(); err == nil {
-		fmt.Printf("Started [%s] with environment: %q", program, env)
+		if verbose {
+			fmt.Printf("Started [%s] with environment: %q", program, env)
+		}
 		return true
 	} else {
 		fmt.Println(err)
