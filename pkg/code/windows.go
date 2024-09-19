@@ -28,8 +28,9 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 
 	if len(program) == 0 {
 		for _, d := range programs {
-			if _, err := os.Stat(path.Join(d, p)); err == nil {
-				program = d
+			ep := path.Join(d, p)
+			if _, err := os.Stat(ep); err == nil {
+				program = ep
 				break
 			}
 		}
