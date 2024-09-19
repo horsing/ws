@@ -26,17 +26,21 @@ const p = "Code.exe"
 func (w windows) Start(program string, env []string, osargs []string, args ...string) bool {
 	font := args[0]
 
+	location := ""
+
 	if len(program) == 0 {
 		for _, d := range programs {
 			ep := path.Join(d, p)
 			if _, err := os.Stat(ep); err == nil {
+				location = d
 				program = ep
 				break
 			}
 		}
+	} else {
+		location = program[:strings.LastIndex(program, string(os.PathSeparator))]
 	}
 
-	location := program[:strings.LastIndex(program, string(os.PathSeparator))]
 	if len(location) == 0 {
 		return false
 	}
