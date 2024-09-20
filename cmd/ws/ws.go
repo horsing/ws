@@ -10,6 +10,7 @@ import (
 	"github.com/horsing/ws/pkg"
 	"github.com/horsing/ws/pkg/code"
 	"github.com/horsing/ws/pkg/config"
+	"github.com/horsing/ws/pkg/utils"
 )
 
 func usage(c *config.Config) {
@@ -55,7 +56,8 @@ func main() {
 		if v, ok := cfg.Programs[os.Args[1]]; ok {
 			switch os.Args[1] {
 			case "code":
-				code.New().Start(v.Program, config.Merge(cfg.Env, v.Env, insensitive()), os.Args[2:], v.Args...)
+			case "codium":
+				code.New().Start(utils.Or(v.Program, os.Args[1]), config.Merge(cfg.Env, v.Env, insensitive()), os.Args[2:], v.Args...)
 			default:
 				if err := (pkg.GenericApplication{}.Start(v.Program, config.Merge(cfg.Env, v.Env, insensitive()), os.Args[1:], v.Args...)); err != nil {
 					panic(err)
