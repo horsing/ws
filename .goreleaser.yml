@@ -9,3 +9,6 @@ builds:
     #
     # Default: Project directory name
     binary: coder
+
+    ldflags:
+      - -X main.Version={{.Version}}
