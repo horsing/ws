@@ -19,12 +19,18 @@ large scale jobs' execution.
 
 ## Usage
 
+### Install
+
+```bash
+go install github.com/horsing/ws # using @<commit-id> to try development features
+```
+
 ### Introduction
 
 ```text
 Usage: ws <command>
 Available command:
-  -h|--help                     show this help
+  help|-h|--help|-?|?           show this help
   [exe]                         any command configured in ~/.workspace
 ```
 

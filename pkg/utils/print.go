@@ -10,8 +10,7 @@ func isVerbose() bool {
 	verbose := false
 	for _, a := range os.Args {
 		switch a {
-		case "-V":
-		case "--verbose":
+		case "-V", "--verbose":
 			verbose = true
 		}
 	}
@@ -22,6 +21,11 @@ var verbose = isVerbose()
 
 // Print equivalent to fmt.Printf(format, args...)
 func Print(format string, args ...any) {
+	fmt.Fprintf(os.Stdout, format+"\n", args...)
+}
+
+// Print equivalent to fmt.Printf(format, args...)
+func Log(format string, args ...any) {
 	if verbose {
 		fmt.Fprintf(os.Stdout, format+"\n", args...)
 	}
@@ -29,7 +33,5 @@ func Print(format string, args ...any) {
 
 // Error equivalent to fmt.Printf(format, args...)
 func Error(err error) {
-	if verbose {
-		fmt.Println(err)
-	}
+	fmt.Println(err)
 }

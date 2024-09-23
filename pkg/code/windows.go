@@ -24,7 +24,7 @@ var programs = []string{
 	path.Join(os.Getenv("APPDATA"), "Apps"), // for VSCodium
 }
 
-func (w windows) Start(program string, env []string, osargs []string, args ...string) bool {
+func (w windows) Start(program string, env []string, osargs []string, args ...string) error {
 	p := "Code.exe"
 	if program == "codium" {
 		p = "VSCodium.exe"
@@ -49,10 +49,11 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 	}
 
 	if len(location) == 0 {
-		return false
+		utils.Print("Cannot find %s in %s", p, location)
+		return fmt.Errorf("executable location cannot be detected")
 	}
 
-	utils.Print("Starting %s in %s", p, location)
+	utils.Log("Starting %s in %s", p, location)
 
 	css := path.Join(location, "resources/app/out/vs/workbench/workbench.desktop.main.css")
 	js := path.Join(location, "resources/app/out/vs/workbench/workbench.desktop.main.js")
@@ -63,7 +64,7 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 		body := string(buf)
 		replaced := regcss.ReplaceAllString(body, fmt.Sprintf("font-family:%s, Segoe WPC,", font))
 		if err := os.WriteFile(css, []byte(replaced), fs.ModeType); err != nil {
-			return false
+			return fmt.Errorf("unable to replace style(s)")
 		}
 	}
 
@@ -71,7 +72,7 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 		body := string(buf)
 		replaced := regjs.ReplaceAllString(body, fmt.Sprintf("font-family: \"%s\", \"Segoe WPC\",", font))
 		if err := os.WriteFile(js, []byte(replaced), fs.ModeType); err != nil {
-			return false
+			return fmt.Errorf("unable to update javascript(s)")
 		}
 	}
 
@@ -80,10 +81,9 @@ func (w windows) Start(program string, env []string, osargs []string, args ...st
 	c.Stderr = os.Stderr
 	c.Stdout = os.Stdout
 	if err := c.Start(); err == nil {
-		utils.Print("Started [%s] with environment: %q", program, env)
-		return true
+		utils.Log("Started [%s] with environment: %q", program, env)
+		return nil
 	} else {
-		utils.Error(err)
-		return false
+		return err
 	}
 }

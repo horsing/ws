@@ -32,11 +32,11 @@ func (c Config) AvailableCommands(sep string) string {
 	return strings.Join(keys, sep)
 }
 
-func (c Config) CommandHelp(cmd string) []string {
+func (c Config) CommandHelp(cmd string) []any {
 	if v, ok := c.Programs[cmd]; ok {
-		return []string{cmd, v.Program}
+		return []any{cmd, v}
 	}
-	return []string{}
+	return []any{}
 }
 
 func Configuration() string {
