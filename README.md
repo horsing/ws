@@ -22,7 +22,7 @@ large scale jobs' execution.
 ### Install
 
 ```bash
-go install github.com/horsing/ws # using @<commit-id> to try development features
+go install github.com/horsing/ws@latest # using @<version> to try development features
 ```
 
 ### Introduction

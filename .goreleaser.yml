@@ -11,4 +11,4 @@ builds:
     binary: coder
 
     ldflags:
-      - -X main.Version={{.Version}}
+      - -X main.Version={{.Tag}}-{{.ShortCommit}}
